@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kennel Form</title>
+</head>
+<body>
+    <h2>Adding Kennels</h2>
+    <!--Creating a form for the kennels -->
+    <form action="kennel.php" method="POST">
+        <label>Kennel ID: </label> <input type="text" name="kennelID" required> <br> <br>
+        <label>Capacity: </label> <input type="text" name="capacity" required><br><br>
+        <label>Species:</label> <input type="text" name="species" required><br><br>
+        <label>Current Occupancy: </label> <input type="text" name="currentOccupancy" required><br><br>
+        <label>Kennel Size:</label> <input type="text" name="asize" required> <br> <br>
+
+        <input type="submit" value="Add a kennel">
+ 
+    </form>
+</body>
+</html>
