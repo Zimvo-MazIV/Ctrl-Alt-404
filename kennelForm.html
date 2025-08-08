@@ -3,20 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kennel Form</title>
+    <title>SPCA Kennel Registration</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        .container { max-width: 400px; margin: 40px auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
+        h2 { text-align: center; }
+        label { display: block; margin-top: 12px; }
+        input[type="text"], select {
+            width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px;
+        }
+        button { margin-top: 18px; width: 100%; padding: 10px; background: #005379; color: #fff; border: none; border-radius: 4px; font-size: 16px; }
+        button:hover { background: #0287a8; }
+    </style>
 </head>
 <body>
-    <h2>Adding Kennels</h2>
-    <!--Creating a form for the kennels -->
-    <form action="kennel.php" method="POST">
-        <label>Kennel ID: </label> <input type="text" name="kennelID" required> <br> <br>
-        <label>Capacity: </label> <input type="text" name="capacity" required><br><br>
-        <label>Species:</label> <input type="text" name="species" required><br><br>
-        <label>Current Occupancy: </label> <input type="text" name="currentOccupancy" required><br><br>
-        <label>Kennel Size:</label> <input type="text" name="asize" required> <br> <br>
+    <div class="container">
+        <h2>SPCA Kennel Registration</h2>
+        <form action="kennel.php" method="POST">
+            <label for="capacity">Capacity:</label>
+            <input type="text" id="capacity" name="capacity" required>
 
-        <input type="submit" value="Add a kennel">
- 
-    </form>
+            <label for="species">Species:</label>
+            <input type="text" id="species" name="species" required>
+
+            <label for="currentOccupancy">Currently Occupied:</label>
+            <select id="currentOccupancy" name="currentOccupancy" required>
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>   
+
+            <label for="asize">Kennel Size:</label>
+            <select id="asize" name="asize" required>
+                <option value="">-- Select Size --</option>
+                <option value="Small">Small</option>
+                <option value="Medium">Medium</option>
+                <option value="Large">Large</option>
+            </select>
+
+            <button type="submit">Add a Kennel</button>
+        </form>
+    </div>
 </body>
 </html>
