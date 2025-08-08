@@ -6,6 +6,11 @@
     <title>SPCA Kennel Registration</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        nav { background: #005379; padding: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        nav ul { list-style: none; display: flex; justify-content: center; margin: 0; padding: 0; }
+        nav ul li { margin: 0 15px; }
+        nav ul li a { color: white; text-decoration: none; font-weight: bold; }
+        nav ul li a:hover { text-decoration: underline; } 
         .container { max-width: 400px; margin: 40px auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 2px 8px #ccc; }
         h2 { text-align: center; }
         label { display: block; margin-top: 12px; }
@@ -17,6 +22,17 @@
     </style>
 </head>
 <body>
+         <!-- Navigation Bar to other forms/pages -->
+    <nav>
+        <ul>
+            <li><a href="addAnimal.php">Add Animal</a></li>
+            <li><a href="kennelForm.html">Add Kennel</a></li>
+            <li><a href="searchanimal.html">Search Animal</a></li>
+            <li><a href="register.html">Register User</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+    
     <div class="container">
         <h2>SPCA Kennel Registration</h2>
         <form action="kennel.php" method="POST">
@@ -46,3 +62,4 @@
     </div>
 </body>
 </html>
+
