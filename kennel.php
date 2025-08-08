@@ -10,15 +10,14 @@
     include 'databaseConnection.php';
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $kennel_id = $_POST['kennelID'];
         $capacity = $_POST['capacity'];
         $species = $_POST['species'];
         $currentOcc = $_POST['currentOccupancy'];
         $size = $_POST['asize'];
 
         //insert sql in the database table
-        $sql2 = "INSERT INTO kennel(kennelID, capacity, species, currentOccupancy, asize)
-                    VALUES('$kennel_id', '$capacity', '$species', '$currentOcc','$size')";
+        $sql2 = "INSERT INTO kennel(capacity, species, currentOccupancy, asize)
+                    VALUES('$capacity', '$species', '$currentOcc','$size')";
 
         $res = $conn->query($sql2);
         if($res === TRUE){
@@ -31,4 +30,5 @@
     }
     ?>
 </body>
+
 </html>
