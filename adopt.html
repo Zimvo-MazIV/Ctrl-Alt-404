@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adopt | SPCA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/theme.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header / Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      z-index: 100;
+      padding: 0 20px;
+    }
+    header .brand {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+    header .brand img { width: 32px; height: 32px; border-radius: 8px; }
+    header nav { display: flex; gap: 16px; margin-left: auto; }
+    header nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    header nav a:hover { background: var(--primary); color: #fff; }
+
+    @media (max-width: 768px) {
+      header nav { gap: 10px; }
+      header { padding: 0 12px; }
+    }
+
+    /* Toolbar / Search */
+    .toolbar { padding: 18px 0; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 14px; align-items: end; }
+    .search { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px; display: grid; grid-template-columns: 1fr 160px 1fr 120px; gap: 10px; }
+    .search input, .search select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; background: #fff; color: #111827; }
+
+    .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:8px; font-weight:700; cursor:pointer; border:1px solid transparent; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-600); }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+    .card img { width: 100%; height: 210px; object-fit: cover; background: var(--surface-alt); }
+    .card-body { padding: 14px; display: grid; gap: 6px; }
+    .muted { color: var(--muted); }
+
+    .empty {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } .toolbar { grid-template-columns: 1fr; } .search { grid-template-columns: 1fr; } }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container" style="display:flex; align-items:center; justify-content:space-between;">
+      <a class="brand" style="color:black; text-decoration-line: none;" href="index.html"><img src="images/logo.png" alt="SPCA" style="width: auto;" /><span>SPCA</span></a>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="donate.php">Donate</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="toolbar">
+      <h1 style="margin:0;">Find your new best friend</h1>
+      <div></div>
+    </div>
+
+    <form id="search" class="search" onsubmit="return false;">
+      <input type="text" id="q" placeholder="Search by name or breed" />
+      <select id="species">
+        <option value="">All species</option>
+        <option>Dog</option>
+        <option>Cat</option>
+        <option>Bird</option>
+        <option>Other</option>
+      </select>
+      <input type="text" id="breed" placeholder="Filter by breed" />
+      <button class="btn btn-primary" id="apply">Search</button>
+    </form>
+
+    <section style="margin-top:18px;" id="results">
+      <div class="grid" id="grid"></div>
+      <div class="empty" id="empty" style="display:none;">
+        <p>No adoptable animals match your filters.</p>
+        <p>Check back later or adjust your search criteria.</p>
+        <img src="https://placehold.co/400x300?text=No+Animals+Available" alt="No animals" style="margin-top:10px; border-radius:8px;">
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const grid = document.getElementById('grid');
+    const empty = document.getElementById('empty');
+
+    function render(list) {
+      grid.innerHTML = '';
+      if (!list || list.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+      list.forEach(a => {
+        const card = document.createElement('article');
+        card.className = 'card';
+
+        const img = document.createElement('img');
+        img.alt = `${a.name} the ${a.species}`;
+        img.src = a.imageUrl || 'https://placehold.co/600x400?text=SPCA';
+        img.onerror = () => { img.src = 'https://placehold.co/600x400?text=SPCA'; };
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        const desc = `${a.species} • ${a.age ?? 'Unknown'} yrs • Breed: ${a.breed ?? 'Unknown'}`;
+        body.innerHTML = `
+          <h3 style="margin:0;">${a.name}</h3>
+          <div class="muted">${desc}</div>
+          <div class="muted">Rescue date: ${a.rescueDate ?? '—'}</div>
+        `;
+
+        const actions = document.createElement('div');
+        actions.style = 'margin-top:10px; display:flex; gap:10px;';
+        const adopt = document.createElement('a');
+        adopt.className = 'btn btn-primary';
+        adopt.textContent = 'Adopt';
+        adopt.href = 'adopt.php?animalId=' + encodeURIComponent(a.id);
+        actions.appendChild(adopt);
+
+        body.appendChild(actions);
+        card.appendChild(img);
+        card.appendChild(body);
+        grid.appendChild(card);
+      });
+    }
+
+    function fetchAnimals() {
+      const params = new URLSearchParams();
+      const q = document.getElementById('q').value.trim();
+      const species = document.getElementById('species').value.trim();
+      const breed = document.getElementById('breed').value.trim();
+      if (q) params.set('q', q);
+      if (species) params.set('species', species);
+      if (breed) params.set('breed', breed);
+
+      fetch('api/animals.php?' + params.toString())
+        .then(r => r.json())
+        .then(res => render(res.animals || []))
+        .catch(() => render([]));
+    }
+
+    document.getElementById('apply').addEventListener('click', fetchAnimals);
+    document.getElementById('q').addEventListener('keydown', e => { if (e.key === 'Enter') fetchAnimals(); });
+
+    // initial load
+    fetchAnimals();
+  </script>
+</body>
+</html>
