@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SPCA | Hope, Care, Adoption</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/theme.css">
+  <style>
+        /* Page component styles (colors pulled from styles/theme.css) */
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+    body {
+      margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+        }
+        a { color: inherit; text-decoration: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Nav */
+        .nav {
+            position: sticky; top: 0; z-index: 50;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: 0.5px; }
+        .brand .logo { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; }
+        .nav-links { display: flex; gap: 16px; align-items: center; }
+        .nav-links a { color: var(--muted); font-weight: 600; padding: 8px 10px; border-radius: 6px; }
+        .nav-links a:hover { color: var(--text); background: var(--surface-alt); }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; border: 1px solid transparent; }
+        .btn-primary { background: var(--primary); color: #ffffff; box-shadow: 0 6px 20px -8px var(--ring); }
+        .btn-primary:hover { background: var(--primary-600); }
+        .btn-outline { border-color: var(--border); color: var(--primary); border-width: 1px; border-style: solid; background: transparent; }
+        .btn-outline:hover { background: var(--surface-alt); }
+
+        /* Hero */
+        .hero { padding: 36px 0 40px; position: relative; overflow: hidden; }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 28px; align-items: center; }
+        .eyebrow { color: var(--primary); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-size: 12px; }
+        .hero h1 { margin: 10px 0 12px; font-size: clamp(30px, 5vw, 52px); line-height: 1.05; }
+        .hero p { color: var(--muted); font-size: 18px; }
+        .hero-cta { display: flex; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+        .hero-slider { position: relative; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); background: var(--surface); box-shadow: 0 8px 24px rgba(2,6,23,0.06); }
+        .hero-slider .slides { position: relative; height: 420px; }
+        .hero-slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 400ms ease; }
+        .hero-slider img.active { opacity: 1; }
+        .slide-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.95); color: var(--primary-600); border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: 18px; }
+        .slide-btn:hover { background: #fff; }
+        .slide-btn.prev { left: 10px; }
+        .slide-btn.next { right: 10px; }
+        .dots { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; gap: 6px; justify-content: center; }
+        .dots button { width: 8px; height: 8px; border-radius: 4px; border: 1px solid var(--border); background: rgba(255,255,255,0.9); padding: 0; cursor: pointer; }
+        .dots button.active { background: var(--primary); border-color: var(--primary); }
+        .hero-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; display: grid; gap: 8px; }
+        .stat-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 26px; }
+        .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+        .stat .num { font-size: 28px; font-weight: 800; }
+        .stat .label { color: var(--muted); font-size: 13px; }
+
+        /* Sections */
+        section { padding: 64px 0; }
+        #volunteer { padding-bottom: 72px; }
+        #donate { padding-top: 72px; }
+        .section-title { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+        .section-title h2 { margin: 0; font-size: 28px; }
+        .muted { color: var(--muted); }
+
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+        .card img { width: 100%; height: 210px; object-fit: cover; background: var(--surface-alt); }
+        .card-body { padding: 14px; display: grid; gap: 6px; }
+        .card-actions { margin-top: 10px; display: flex; gap: 10px; }
+
+        /* Articles */
+        .article { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: grid; gap: 6px; }
+        .article .thumb { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border); }
+
+        /* Footer */
+        footer { margin-top: 50px; border-top: 1px solid var(--border); color: var(--muted); background: var(--surface); }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr; gap: 24px; padding: 26px 0; }
+        .footer-brand { display: grid; gap: 8px; }
+        .footer-brand .logo { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; }
+        .footer-links a, .footer-contact a { color: var(--muted); }
+        .footer-links a:hover, .footer-contact a:hover { color: var(--text); }
+        .footer-section h4 { margin: 0 0 8px; color: var(--text); font-size: 16px; }
+        .footer-bottom { border-top: 1px solid var(--border); padding: 12px 0 20px; display: flex; gap: 16px; justify-content: space-between; align-items: center; font-size: 14px; }
+        .footer-bottom a { color: var(--muted); }
+        .footer-bottom a:hover { color: var(--text); }
+
+        /* Responsive */
+        @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } .hero { padding-top: 24px; } }
+        @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } .stat-strip { grid-template-columns: repeat(2, 1fr); } section { padding: 56px 0; } }
+        @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } section { padding: 48px 0; } }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hero slider
+            const slider = document.getElementById('hero-slider');
+            if (slider) {
+                const images = Array.from(slider.querySelectorAll('.slides img'));
+                const prevBtn = slider.querySelector('.slide-btn.prev');
+                const nextBtn = slider.querySelector('.slide-btn.next');
+                const dotsEl = document.getElementById('hero-dots');
+                let idx = 0;
+                let timer = null;
+
+                function render() {
+                    images.forEach((img, i) => img.classList.toggle('active', i === idx));
+                    if (dotsEl) {
+                        dotsEl.innerHTML = '';
+                        images.forEach((_, i) => {
+                            const b = document.createElement('button');
+                            b.className = i === idx ? 'active' : '';
+                            b.setAttribute('aria-label', `Go to slide ${i+1}`);
+                            b.addEventListener('click', () => { idx = i; render(); restart(); });
+                            dotsEl.appendChild(b);
+                        });
+                    }
+                }
+                function next() { idx = (idx + 1) % images.length; render(); }
+                function prev() { idx = (idx - 1 + images.length) % images.length; render(); }
+                function restart() { if (timer) clearInterval(timer); timer = setInterval(next, 5000); }
+
+                prevBtn?.addEventListener('click', () => { prev(); restart(); });
+                nextBtn?.addEventListener('click', () => { next(); restart(); });
+                render();
+                restart();
+            }
+
+            // Load stats sourced from stack overflow
+            fetch('api/site_stats.php').then(r => r.json()).then(data => {
+                if (!data) return;
+                const set = (id, value) => { const el = document.getElementById(id); if (el && (value || value === 0)) el.textContent = value; };
+                set('stat-total', data.totalAnimals);
+                set('stat-available', data.availableAnimals);
+                set('stat-adopted', data.adoptedAnimals);
+            }).catch(() => {});
+
+            // Featured animals with graceful fallback
+            const grid = document.getElementById('featured-animals');
+            const defaultDescriptions = [
+                'Gentle and affectionate companion looking for a forever home.',
+                'Playful spirit who loves walks and belly rubs.',
+                'Calm and curious — perfect for a quiet, caring family.',
+                'Smart and eager to learn. Ready for new adventures!',
+                'Affectionate cuddle-bug who bonds quickly.',
+                'Resilient and loving — a true best friend in the making.'
+            ];
+            const defaultAnimals = [
+                { name: 'Buddy', species: 'Dog', age: 2, breed: 'Mixed', imageUrl: 'images/Dog/pexels-jhelmuth-3995454.jpg' },
+                { name: 'Luna', species: 'Cat', age: 3, breed: 'Domestic Short Hair', imageUrl: 'images/Cat/pexels-roger-ce-311041755-13539517.jpg' },
+                { name: 'Coco', species: 'Bird', age: 1, breed: 'Parrot', imageUrl: 'images/Parrot/pexels-anntarazevich-6796544.jpg' },
+                { name: 'Oreo', species: 'Rabbit', age: 1, breed: 'Mini Rex', imageUrl: 'images/Rabbit/pexels-roman-odintsov-6897434.jpg' },
+                { name: 'Max', species: 'Dog', age: 4, breed: 'Corgi Mix', imageUrl: 'images/Dog/942036-download-pembroke-welsh-corgi-cute-puppy-desktop-wallpaper.jpg' },
+                { name: 'Milo', species: 'Cat', age: 2, breed: 'Tabby', imageUrl: 'images/Cat/pexels-optical-chemist-340351297-31986005.jpg' }
+            ];
+            function pickRandomDescription() {
+                return defaultDescriptions[Math.floor(Math.random() * defaultDescriptions.length)];
+            }
+            function renderAnimals(list) {
+                grid.innerHTML = '';
+                list.forEach(a => {
+                    const card = document.createElement('article');
+                    card.className = 'card';
+                    const img = document.createElement('img');
+                    img.alt = `${a.name} the ${a.species}`;
+                    img.src = a.imageUrl || 'https://placehold.co/600x400?text=SPCA';
+                    img.onerror = () => { img.src = 'https://placehold.co/600x400?text=SPCA'; };
+                    const body = document.createElement('div');
+                    body.className = 'card-body';
+                    const desc = a.description || pickRandomDescription();
+                    body.innerHTML = `
+                        <h3 style="margin:0;">${a.name}</h3>
+                        <div class="muted">${a.species} • ${a.age ?? 'Unknown'} yrs • Breed: ${a.breed ?? 'Unknown'}</div>
+                        <div class="muted" style="margin-top:4px;">${desc}</div>
+                    `;
+                    const actions = document.createElement('div');
+                    actions.className = 'card-actions';
+                    actions.innerHTML = `
+                        <a class="btn btn-primary" href="#adoption">Adopt me</a>
+                        <a class="btn btn-outline" href="#visit">Book a visit</a>
+                    `;
+                    body.appendChild(actions);
+                    card.appendChild(img);
+                    card.appendChild(body);
+                    grid.appendChild(card);
+                });
+            }
+            fetch('api/featured_animals.php')
+                .then(r => r.json())
+                .then(res => {
+                    if (res && Array.isArray(res.animals) && res.animals.length > 0) {
+                        renderAnimals(res.animals);
+                    } else {
+                        renderAnimals(defaultAnimals);
+                    }
+                })
+                .catch(() => {
+                    renderAnimals(defaultAnimals);
+                });
+        });
+    </script>
+    <meta name="description" content="SPCA – Protecting animals through rescue, care and adoption. Join us to adopt, donate or volunteer.">
+</head>
+<body>
+    <header class="nav">
+        <div class="container nav-inner">
+            <a class="brand" href="#">
+                <img class="logo" src="images/logo.png" alt="SPCA logo" />
+                <span>SPCA</span>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="#adopt">Adopt</a>
+                <a href="#articles">Articles</a>
+                <a href="#volunteer">Volunteer</a>
+                <a href="donate.php">Donate</a>
+                <a class="btn btn-outline" href="login.html">Login</a>
+                <a class="btn btn-primary" href="UserRegistration.html" style="color: #ffffff;" onmouseover="this.style.color='var(--primary)';" onmouseout="this.style.color='#ffffff';"> Register</a>
+            </nav>
+        </div>
+  </header>
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <div class="eyebrow">Every paw deserves a chance</div>
+                <h1>Rescue. Rehabilitate. Rehome.</h1>
+                <p>
+                    We are dedicated to preventing cruelty and promoting the welfare of animals.
+                    Help us create more happy endings through adoption, donations, and volunteering.
+                </p>
+                <div class="hero-cta">
+                    <a class="btn btn-primary" href="#adopt">Find a friend</a>
+                    <a class="btn btn-outline" href="donate.php">Make a donation</a>
+                </div>
+
+                <div class="stat-strip" role="list" aria-label="Site statistics">
+                    <div class="stat" role="listitem"><div class="num" id="stat-total">—</div><div class="label">Animals in our care</div></div>
+                    <div class="stat" role="listitem"><div class="num" id="stat-available">—</div><div class="label">Ready for adoption</div></div>
+                    <div class="stat" role="listitem"><div class="num" id="stat-adopted">—</div><div class="label">Adopted this year</div></div>
+                </div>
+            </div>
+            <div>
+                <div class="hero-slider" id="hero-slider" aria-roledescription="carousel" aria-label="Featured images">
+                    <div class="slides">
+                        <img class="active" src="images/vetinary/mainVetImage.jpg" alt="Compassionate veterinary care at the SPCA" />
+                        <img src="images/adoption/adoption2.jpg" alt="A happy SPCA adoption" />
+                        <img src="images/Volunteer/petvolunteer2.jpg" alt="Volunteers caring for animals" />
+                        <img src="images/animalRescue/rescue1.jpg" alt="SPCA animal rescue" />
+                    </div>
+                    <button class="slide-btn prev" aria-label="Previous slide" type="button">‹</button>
+                    <button class="slide-btn next" aria-label="Next slide" type="button">›</button>
+                    <div class="dots" id="hero-dots" role="tablist" aria-label="Slide indicators"></div>
+                </div>
+                <div class="hero-card" aria-live="polite" style="margin-top:14px;">
+                    <strong>How you can help</strong>
+                    <div class="muted">Your support drives our mission.</div>
+                    <div style="display:grid; gap:10px; grid-template-columns: 1fr 1fr;">
+                        <a class="btn btn-outline" href="#volunteer">Volunteer</a>
+                        <a class="btn btn-outline" href="#report">Report cruelty</a>
+                        <a class="btn btn-outline" href="donate.php">Donate</a>
+                        <a class="btn btn-outline" href="#adopt">Adopt</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="adopt" class="container">
+        <div class="section-title">
+            <h2>Featured animals</h2>
+            <a class="muted" href="adopt.php">See all</a>
+        </div>
+        <div id="featured-animals" class="grid">
+            <article class="card"><img src="https://placehold.co/600x400?text=SPCA" alt="Loading" /><div class="card-body"><div class="chip">Loading…</div><h3>Loading…</h3><div class="muted">Please wait</div></div></article>
+            <article class="card"><img src="https://placehold.co/600x400?text=SPCA" alt="Loading" /><div class="card-body"><div class="chip">Loading…</div><h3>Loading…</h3><div class="muted">Please wait</div></div></article>
+            <article class="card"><img src="https://placehold.co/600x400?text=SPCA" alt="Loading" /><div class="card-body"><div class="chip">Loading…</div><h3>Loading…</h3><div class="muted">Please wait</div></div></article>
+        </div>
+    </section>
+
+    <section id="articles" class="container">
+        <div class="section-title">
+            <h2>Latest articles</h2>
+            <span class="muted">News and education</span>
+        </div>
+        <div class="grid">
+            <article class="article">
+                <img class="thumb" src="images/adoption/adoption3.jpg" alt="Happy adoption at the SPCA" />
+                <h3>Preparing your home for adoption</h3>
+                <p class="muted">From safe spaces to the right food, here’s how to welcome a new best friend.</p>
+                <a class="btn btn-outline" href="#">Read more</a>
+            </article>
+            <article class="article">
+                <img class="thumb" src="images/animalRescue/rescue1.jpg" alt="Animal rescue in progress" />
+                <h3>Why microchipping matters</h3>
+                <p class="muted">Microchips reunite families. Learn how we check and register every rescue.</p>
+                <a class="btn btn-outline" href="#">Read more</a>
+            </article>
+            <article class="article">
+                <img class="thumb" src="images/Volunteer/petvolunteer3.jpg" alt="SPCA volunteers supporting animals" />
+                <h3>Volunteer spotlight</h3>
+                <p class="muted">Meet the people behind the mission and how you can join our team.</p>
+                <a class="btn btn-outline" href="#">Read more</a>
+    </article>
+        </div>
+    </section>
+
+    <section id="gallery" class="container">
+        <div class="section-title">
+            <h2>Our impact in pictures</h2>
+            <span class="muted">Adoptions, rescues, and volunteers</span>
+        </div>
+        <div class="grid">
+            <article class="card"><img src="images/adoption/adoption1.jpg" alt="Joyful adoption day" /></article>
+            <article class="card"><img src="images/Volunteer/petvolunteer5.jpg" alt="Volunteer walking a dog" /></article>
+            <article class="card"><img src="images/Volunteer/petvolunteer2.jpg" alt="Rescued dog recovering" /></article>
+        </div>
+    </section>
+
+    <section id="volunteer" class="container">
+        <div class="section-title">
+            <h2>Volunteer with us</h2>
+        </div>
+        <div class="article">
+            <p class="muted">We welcome volunteers for walking, feeding, enrichment, transport and more. Training is provided.</p>
+            <div class="hero-cta">
+                <a class="btn btn-primary" href="UserRegistration.html">Create an account</a>
+                <a class="btn btn-outline" href="#">Learn more</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="donate" class="container">
+        <div class="section-title">
+            <h2>Donate</h2>
+        </div>
+        <div class="article">
+            <p class="muted">Your donation funds medical care, food, shelter and rescue missions. Every contribution makes an impact.</p>
+            <div class="hero-cta">
+                <a class="btn btn-primary" href="donate.php">Donate online</a>
+                <a class="btn btn-outline" href="#">Other ways to give</a>
+            </div>
+        </div>
+    </section>
+
+  <footer>
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <img class="logo" src="images/logo.png" alt="SPCA logo" />
+                    <strong>SPCA</strong>
+                </div>
+                <div class="muted">Rescue, rehabilitate and rehome. Your support protects animals every day.</div>
+            </div>
+            <div class="footer-section footer-links">
+                <h4>Explore</h4>
+                <div style="display:grid; gap:6px;">
+                    <a href="#adopt">Adopt</a>
+                    <a href="#articles">Articles</a>
+                    <a href="#volunteer">Volunteer</a>
+                    <a href="donate.php">Donate</a>
+                </div>
+            </div>
+            <div class="footer-section footer-contact">
+                <h4>Contact</h4>
+                <div class="muted">Email: <a href="mailto:info@spca.example">info@spca.example</a></div>
+                <div class="muted">Phone: <a href="tel:+27110000000">+27 11 000 0000</a></div>
+                <div class="muted">Hours: Mon–Fri 08:00–17:00</div>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <div>© <span id="year"></span> SPCA. All rights reserved.</div>
+            <div style="display:flex; gap:12px;">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+        <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  </footer>
+
+</body>
+</html>
