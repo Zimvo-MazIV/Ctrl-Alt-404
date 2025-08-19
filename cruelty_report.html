@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cruelty Report | SPCA GHT</title>
+  <style>
+    body {
+      min-height: 100vh;
+      font-size: 18px;
+      padding: 20px;
+      margin: 0;
+      background-color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      color: #002E4D;
+    }
+
+    article {
+      background-color: #F6F6F6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="date"],
+    input[type="file"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    #contexp {
+      color: #FF6700;
+      margin-top: 20px;
+    }
+
+    .button-section {
+      margin-top: 30px;
+    }
+
+    input[type="submit"],
+    button[type="submit"] {
+      background-color: #002E4D;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    input[type="submit"]:hover,
+    button[type="submit"]:hover {
+      background-color: #004b75;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Report Cruelty</h1>
+  </header>
+
+  <article>
+    <form id="crueltyReportForm" action="cruelty_report.php" method="POST">
+      
+      <!-- Reporter Information -->
+      <section id="reporterInfo">
+        <label for="name">Reporter Name:</label>
+        <input type="text" name="name" id="name" maxlength="35" />
+
+        <p id="contexp">
+          Contact Details: (Enter either Phone Number or Email*)
+        </p>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" name="phone" id="phone" placeholder="+27 12 450 0000" />
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="johndoe123@spca.co.za" />
+      </section>
+
+      <!-- Incident Information -->
+      <section id="incidentInfo">
+        <label for="inciddate">Date of Incident:</label>
+        <input type="date" name="inciddate" id="inciddate" requirincided/>
+        <br>
+        <br>
+        <label for = "location">Incident Location:</label><br>
+        <select name = "location" id = "incidloc" required>
+          <option value = "" disabled selected>Select A Closest Location</option>
+          <option value = "alicedale">Alicedale</option>
+          <option value = "belmont_val">Belmont Valley</option>
+          <option value = "eluxolweni">Eluxolweni</option>
+          <option value = "fingo">Fingo</option>
+          <option value = "fort_england">Fort England</option>
+          <option value = "military_base">Military Base (area)</option>
+          <option value = "hill_sixty">Hill Sixty(60)</option>
+          <option value = "hlalani">Hlalani</option>
+          <option value = "hooggenoeg">Hooggenoeg</option>
+          <option value = "joza">Joza</option>
+          <option value = "king_flats">King Flats</option>
+          <option value = "kingswood">Kingswood</option>
+          <option value = "mary_waters">Mary Waters</option>
+          <option value = "oatlands">Oatlands</option>
+          <option value = "phaphamani">Phamamani</option>
+          <option value = "rhodes">Rhodes</option>
+          <option value = "scott_farm">Scott Farm</option>
+          <option value = "somerset_heights">Somerset Heights</option>
+          <option value = "sunnyside">Sunnyside</option>
+          <option value = "tantyi">Tantyi</option>
+          <option value = "vukani">Vukani</option>
+          <option value = "xolani">Xolani</option>
+          <option value = "rhini">Rhini</option>
+          <option value = "inconlusive">Describe in Description</option>
+        </select>
+        <br>
+        <br>
+        <label for="inciddescr">Description of Incident:</label>
+        <textarea name="inciddescr" id="inciddescr" rows="5" maxlength="300"></textarea>
+
+        <label for="incidevidence">Upload Evidence (optional):</label>
+        <input type="file" name="incidevidence" id="incidevidence" accept="image/*, video/*" />
+      </section>
+
+      <div class="button-section">
+        <input type="submit" value="Submit Report" />
+      </div>
+    </form>
+  </article>
+
+  <script>
+    // Ensure at least one contact method is filled
+    const form = document.getElementById('crueltyReportForm');
+
+    form.addEventListener('submit', function(event) {
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (!email && !phone) {
+        event.preventDefault();
+        alert('Please provide either your email address or phone number or both.');
+      }
+    });
+  </script>
+
+
+</body>
+</html>
+
